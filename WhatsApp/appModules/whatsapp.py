@@ -1,5 +1,4 @@
 from enum import Enum
-
 import addonHandler
 import appModuleHandler
 from controlTypes import Role
@@ -45,3 +44,11 @@ class AppModule(appModuleHandler.AppModule):
 				except Exception:
 					log.exception('WhatsApp::Error while applying transform %r for obj with automation ID "%s".', transform, automationID)
 					continue
+
+		uiaElement = getattr(obj, 'UIAElement')
+		if (
+			uiaElement and
+			obj.role == Role.WINDOW and
+			uiaElement.cachedClassName == 'Windows.UI.Core.CoreWindow'
+		):
+			obj.name = ''
